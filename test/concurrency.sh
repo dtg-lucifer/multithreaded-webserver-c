@@ -3,7 +3,7 @@
 HOST="localhost"
 PORT=8998
 ENDPOINT="/"
-TOTAL_REQUESTS=50
+TOTAL_REQUESTS=5000
 CONCURRENT=10
 
 echo "Starting concurrent load test..."
@@ -16,7 +16,7 @@ for ((i = 1; i <= TOTAL_REQUESTS; i++)); do
     TIME_TAKEN=$((END - START))
     echo "Request $i: status $RESPONSE - ${TIME_TAKEN}ms"
   ) &
-  
+
   if (( i % CONCURRENT == 0 )); then
     wait
   fi

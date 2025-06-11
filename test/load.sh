@@ -4,7 +4,7 @@
 HOST="localhost"
 PORT=8998
 ENDPOINT="/"
-TOTAL_REQUESTS=100
+TOTAL_REQUESTS=1000
 
 echo "Starting load test on http://${HOST}:${PORT}${ENDPOINT}"
 echo ""

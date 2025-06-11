@@ -1,36 +1,35 @@
-#include "connection.h"
-#include "include.h"
-#include "server.h"
+#include "../include/connection.h"
 
-int accept_connection(server_t *server_p) {
+#include "../include/include.h"
+#include "../include/server.h"
+
+int accept_connection(server_t* server_p) {
   if (!server_p) {
-    fprintf(stderr, "Server pointer is NULL\n");
+    LOG_ERR("Server pointer is NULL\n");
     return -1;
   }
 
   SIN client_addr;
   socklen_t client_addr_len = sizeof(client_addr);
 
-  int client_sock =
-      accept(server_p->sockfd, (SA *)&client_addr, &client_addr_len);
+  int client_sock = accept(server_p->sockfd, (SA*)&client_addr, &client_addr_len);
   if (client_sock < 0) {
-    fprintf(stderr, "Cannot accept the socket connection\n");
+    LOG_ERR("Cannot accept the socket connection\n");
     return -1;
   }
 
-  char client_ip[INET_ADDRSTRLEN]; // Allocate buffer for client IP Address
+  char client_ip[INET_ADDRSTRLEN];  // Allocate buffer for client IP Address
   inet_ntop(client_addr.sin_family, &client_addr.sin_addr, client_ip,
-            INET_ADDRSTRLEN); // Convert IP address to string
+            INET_ADDRSTRLEN);  // Convert IP address to string
 
-  printf("Accepted connection from %s:%d\n", client_ip,
-         ntohs(client_addr.sin_port));
+  LOG("Accepted connection from %s:%d\n", client_ip, ntohs(client_addr.sin_port));
 
   return client_sock;
 }
 
-int handle_connection(server_t *server_p, int *client_sock) {
+int handle_connection(server_t* server_p, int* client_sock) {
   if (!server_p || !client_sock) {
-    fprintf(stderr, "Invalid arguments to handle_connection\n");
+    LOG_ERR("Invalid arguments to handle_connection\n");
     return -1;
   }
 
@@ -53,14 +52,13 @@ int handle_connection(server_t *server_p, int *client_sock) {
     server_p->buffer[bytes_read - 1] = '\0';
   }
 
-  fprintf(stdout, "Received data: %s\n", server_p->buffer);
+  LOG("[CLIENT %d] Received data: %s\n", *client_sock, server_p->buffer);
+  LOG("[CLIENT %d] Bytes read: %zd\n", *client_sock, bytes_read);
 
   return 1;
 }
 
-size_t send_data(server_t *server_p, const char *data, size_t length,
-                 int *client_sock) {
-
+size_t send_data(server_t* server_p, const char* data, size_t length, int* client_sock) {
   ssize_t sent_bytes = send(*client_sock, data, length, 0);
   if (sent_bytes < 0) {
     perror("Failed to send response to client");

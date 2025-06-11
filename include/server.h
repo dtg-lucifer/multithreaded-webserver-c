@@ -39,6 +39,9 @@ typedef struct {
   uint8_t buffer[BUFFER_SIZE];  // Buffer for incoming data (default 4096 bytes each consumes 8 bits)
 } server_t;
 
+// Global server declaration for signal handler
+extern server_t* global_server;
+
 /**
  * Creates a server socket and binds it to the specified port.
  *
