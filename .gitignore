@@ -1,0 +1,47 @@
+# Build directories
+/build/
+/CMakeFiles/
+/Makefile
+/CMakeCache.txt
+/cmake_install.cmake
+
+# Executable binaries
+*.out
+*.o
+*.a
+*.so
+*.exe
+
+# Backup or swap files
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Logs
+*.log
+
+# Generated files
+compile_commands.json
+
+# Cache
+.cache/
+.bin/
+
+# Test outputs
+/test/output/
+test_*
+
+# Ignore editor/project files
+.vscode/
+.idea/
+.DS_Store
+
+# Git-related
+*.orig
+
+# Misc
+*.dSYM/
+*.gcno
+*.gcda
