@@ -1,7 +1,0 @@
-dev:
-  @make && \
-    gdb ./.bin/server
-
-run:
-  @make && \
-    ./.bin/server
