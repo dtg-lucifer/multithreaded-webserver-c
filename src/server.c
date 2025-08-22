@@ -8,7 +8,7 @@
 threadpool_t pool;
 
 // Global variable to store server reference
-server_t *global_server = NULL;
+server_t* global_server = NULL;
 
 /**
  * Creates a server socket and binds it to the specified port.
@@ -16,7 +16,7 @@ server_t *global_server = NULL;
  * @param port - port range for the server from 0 - 65535
  * @param *server - a pointer to a `server_t` struct
  */
-void create_server(uint16_t port, server_t *server) {
+void create_server(uint16_t port, server_t* server) {
   // Storing the size of the address structure
   server->addr_len = sizeof(server->addr);
 
@@ -29,8 +29,7 @@ void create_server(uint16_t port, server_t *server) {
 
   // Set socket option to reuse address
   int opt = 1;
-  if (setsockopt(server->sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) <
-      0) {
+  if (setsockopt(server->sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
     perror("Failed to set SO_REUSEADDR option");
     close(server->sockfd);
     exit(EXIT_FAILURE);
@@ -40,16 +39,16 @@ void create_server(uint16_t port, server_t *server) {
   memset(&server->addr, 0, server->addr_len);
 
   struct sockaddr_in addr = {
-      .sin_family = AF_INET,         // Use IPv4 addresses
-      .sin_addr.s_addr = INADDR_ANY, // Bind to all interfaces
-      .sin_port = htons(port)        // Convert port to network byte order
+      .sin_family = AF_INET,          // Use IPv4 addresses
+      .sin_addr.s_addr = INADDR_ANY,  // Bind to all interfaces
+      .sin_port = htons(port)         // Convert port to network byte order
   };
 
   memcpy(&server->addr, &addr,
-         sizeof(addr)); // Copy the address to the server struct
+         sizeof(addr));  // Copy the address to the server struct
 
   // Bind the socket to the address and port
-  if (bind(server->sockfd, (SA *)&server->addr, sizeof(server->addr)) < 0) {
+  if (bind(server->sockfd, (SA*)&server->addr, sizeof(server->addr)) < 0) {
     perror("Failed to bind socket");
     close(server->sockfd);
     exit(EXIT_FAILURE);
@@ -77,7 +76,7 @@ void handle_sigint(int sig) {
  *
  * @param *server - a pointer to a `server_t` struct
  */
-void start_server(server_t *server) {
+void start_server(server_t* server) {
   // Set global server reference for signal handler
   global_server = server;
 

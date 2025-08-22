@@ -1,10 +1,10 @@
 #include "../include/threadpool.h"
 
 #include "../include/connection.h"
-#include "../include/include.h" // Make sure include.h is included for LOG macro
+#include "../include/include.h"
 
-void *worker_thread(void *arg) {
-  threadpool_t *pool = (threadpool_t *)arg;
+void* worker_thread(void* arg) {
+  threadpool_t* pool = (threadpool_t*)arg;
 
   LOG("[THREAD %lu] Started\n", pthread_self());
 
@@ -32,7 +32,7 @@ void *worker_thread(void *arg) {
 
     // Handle the client
     if (handle_connection(pool->server, &client_sock) >= 0) {
-      const char *resp = "HTTP/1.1 200 OK\r\n\r\nHello World!\r\n\r\n";
+      const char* resp = "HTTP/1.1 200 OK\r\n\r\nHello World!\r\n\r\n";
       send_data(pool->server, resp, strlen(resp), &client_sock);
     }
 
@@ -43,7 +43,7 @@ void *worker_thread(void *arg) {
   return NULL;
 }
 
-void threadpool_init(threadpool_t *pool, server_t *server) {
+void threadpool_init(threadpool_t* pool, server_t* server) {
   pool->front = 0;
   pool->rear = 0;
   pool->count = 0;
@@ -58,7 +58,7 @@ void threadpool_init(threadpool_t *pool, server_t *server) {
   }
 }
 
-void threadpool_shutdown(threadpool_t *pool) {
+void threadpool_shutdown(threadpool_t* pool) {
   pthread_mutex_lock(&pool->lock);
   pool->shutdown = 1;
   pthread_cond_broadcast(&pool->has_jobs);
@@ -75,7 +75,7 @@ void threadpool_shutdown(threadpool_t *pool) {
   LOG("[THREADPOOL] Shutdown complete.\n");
 }
 
-void threadpool_add_job(threadpool_t *pool, int client_sock) {
+void threadpool_add_job(threadpool_t* pool, int client_sock) {
   pthread_mutex_lock(&pool->lock);
 
   if (pool->count == MAX_QUEUE) {
