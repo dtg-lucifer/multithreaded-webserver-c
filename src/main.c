@@ -1,13 +1,13 @@
 #include "../include/include.h"
 #include "../include/server.h"
 
-int main(int argc, char *argv[]) {
-  server_t server;
-  uint16_t port = PORT;
+int main(int argc, char* argv[]) {
+    server_t server;
+    uint16_t port = PORT;
 
-  INFO("Starting server\n");
+    INFO("Starting server\n");
 
-  create_server(port, &server);
+    create_server(port, &server);
 
-  start_server(&server);
+    start_server(&server);
 }

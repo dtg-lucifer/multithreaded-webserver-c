@@ -33,14 +33,15 @@ typedef struct sockaddr_in SIN;
  * the information about the server in a struct
  */
 typedef struct {
-  int sockfd;                   // File descriptor for the socket connection
-  SIN addr;                     // socket address info
-  socklen_t addr_len;           // Length of the address structure
-  uint8_t buffer[BUFFER_SIZE];  // Buffer for incoming data (default 4096 bytes each consumes 8 bits)
+  int sockfd;                  // File descriptor for the socket connection
+  SIN addr;                    // socket address info
+  socklen_t addr_len;          // Length of the address structure
+  uint8_t buffer[BUFFER_SIZE]; // Buffer for incoming data (default 4096 bytes
+                               // each consumes 8 bits)
 } server_t;
 
 // Global server declaration for signal handler
-extern server_t* global_server;
+extern server_t *global_server;
 
 /**
  * Creates a server socket and binds it to the specified port.
@@ -48,13 +49,13 @@ extern server_t* global_server;
  * @param port - port range for the server from 0 - 65535
  * @param *server - a pointer to a `server_t` struct
  */
-void create_server(uint16_t port, server_t* server);
+void create_server(uint16_t port, server_t *server);
 
 /**
  * Starts the server and listens for incoming connections.
  *
  * @param *server - a pointer to a `server_t` struct
  */
-void start_server(server_t* server);
+void start_server(server_t *server);
 
-#endif  // !_SERVER_H_
+#endif // !_SERVER_H_
